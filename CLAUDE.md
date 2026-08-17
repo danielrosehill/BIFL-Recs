@@ -10,14 +10,26 @@ are never the same step.
    `dist/candidates.csv`. Columns carry the verbatim excerpt and permalink for
    the three highest-scored mentions, so a candidate can be judged without
    re-reading the corpus.
-2. Open the corpus for the candidate if the excerpts are not enough:
-   `grep -i "<brand>" harvest/reddit/*/comments.jsonl | head`. Re-harvest first
-   if `harvest/` is empty — the comment corpus is gitignored.
+2. `uv run scripts/inspect_candidate.py "<brand>" --durable-only --min-score 100`
+   for the evidence behind one candidate: refs, permalinks, scores, dates.
+   Re-harvest first if `harvest/` is empty — the comment corpus is gitignored.
 3. Write the record into `data/recommendations/<division-id>-<slug>.yaml`,
    creating the file if that division has none yet. Division ids and names come
-   from `../HomeGoods-Taxonomy/data/`; use the same two-digit ids.
-4. `uv run scripts/build.py`. It fails on schema violations, duplicate ids, and
-   filenames that disagree with the division id inside.
+   from `../HomeGoods-Taxonomy/data/`; use the same two-digit ids. Cite refs;
+   **do not type quotes** — see below.
+4. `uv run scripts/fill_quotes.py` then `uv run scripts/build.py`. The build
+   fails on schema violations, duplicate ids, and filenames that disagree with
+   the division id inside.
+
+## Quotes are extracted, not transcribed
+
+Never hand-write `evidence[].quote`. Cite the `ref` and let
+`scripts/fill_quotes.py` pull the text out of the corpus into
+`data/quotes.json`, which the build merges in. Two reasons: a copied quote
+drifts into paraphrase, and any tooling in the chain — including whatever is
+rendering the corpus into your context — may be compressing or reflowing the
+text you think you are reading. The extracted string is the only one that can
+be trusted to match the source.
 
 ## Things that will catch you out
 

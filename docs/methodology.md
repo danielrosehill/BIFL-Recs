@@ -16,7 +16,10 @@ scripts/harvest_reddit.py ──▶ harvest/reddit/<sub>/posts.jsonl
 scripts/extract_candidates.py ──▶ dist/candidates.csv     ranked leads + quotes
       │
       ▼  (curation — human or agent, never automatic)
-data/recommendations/<division>.yaml
+data/recommendations/<division>.yaml      cites refs, no quotes typed by hand
+      │
+      ▼
+scripts/fill_quotes.py ──▶ data/quotes.json    verbatim text for every ref
       │
       ▼
 scripts/build.py ──▶ dist/recommendations.json
@@ -69,6 +72,16 @@ Two API limits shape the harvester:
 Every record carries at least one evidence entry, and each entry carries the
 permalink and the verbatim sentence the claim rests on. A record with no
 evidence is not a record — `scripts/build.py` fails the build.
+
+Quotes are extracted by `scripts/fill_quotes.py` rather than typed. A record
+cites a ref (`t3_…` for a post, `t1_…` for a comment) and the tooling pulls the
+text out of the corpus into `data/quotes.json`, which the build merges into the
+published artefacts. Hand-copying is banned for a practical reason as well as a
+principled one: anything in the chain between the corpus and the person writing
+the record — including the tooling that renders text into an agent's context —
+may compress or reflow it, and the result reads like a quotation while no
+longer being one. `data/quotes.json` is committed, so a claim stays checkable
+after the gitignored comment corpus is gone or the cited comment is deleted.
 
 Scores are recorded as numbers, not as verdicts. A 40,000-point post is
 evidence that many people liked reading it, which is not the same as evidence

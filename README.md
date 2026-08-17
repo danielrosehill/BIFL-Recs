@@ -17,9 +17,11 @@ something that can be queried, joined onto an inventory, and re-checked.
 | `config/sources.yaml` | The harvest plan. Adding a source means editing this file. |
 | `scripts/harvest_reddit.py` | Pulls posts and comments into `harvest/reddit/<sub>/*.jsonl`. |
 | `scripts/extract_candidates.py` | Ranks product candidates out of the corpus into `dist/candidates.csv`. |
+| `scripts/inspect_candidate.py` | Shows the corpus evidence behind one candidate, with permalinks and refs. |
 | `data/recommendations/*.yaml` | The directory itself — curated records, one file per division. |
+| `data/quotes.json` | Verbatim quotes for every cited ref, extracted by `scripts/fill_quotes.py`. |
 | `schema/recommendation.schema.json` | What a record must contain. Enforced by the build. |
-| `scripts/build.py` | Validates `data/`, writes `dist/` and `docs/directory.md`. |
+| `scripts/build.py` | Validates `data/`, merges quotes, writes `dist/` and `docs/directory.md`. |
 | `docs/methodology.md` | How a comment becomes a record, and what this repo refuses to do. |
 | `docs/directory.md` | Generated, human-readable index. |
 
@@ -70,8 +72,13 @@ uv pip install -r <(echo -e "PyYAML\njsonschema")
 source config/credentials.example      # or export the two variables yourself
 uv run scripts/harvest_reddit.py       # posts + comments, ~30 min for a full pass
 uv run scripts/extract_candidates.py   # -> dist/candidates.csv
+uv run scripts/fill_quotes.py          # -> data/quotes.json for newly cited refs
 uv run scripts/build.py                # validate data/, write dist/ and docs/directory.md
 ```
+
+Quotes are extracted from the corpus by `fill_quotes.py` rather than typed into
+the YAML, so an evidence quote is always exactly what the source said. Records
+cite a ref (`t3_…`/`t1_…`) and the build attaches the text, score and date.
 
 `scripts/build.py --check` validates without writing, and exits non-zero on a
 schema violation or a duplicate id — it is the repo's test suite.

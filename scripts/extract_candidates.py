@@ -88,6 +88,20 @@ NON_PRODUCT_NAMES = {
     "britain", "british", "england", "india", "mexico", "vietnam", "taiwan",
     "christmas", "thanksgiving", "easter", "hanukkah", "covid", "reddit's",
     "edit", "tldr", "eli", "ymmv", "imho", "fwiw", "op",
+    # Acronyms and units that pass the mid-sentence capital test because they
+    # are never written lowercase. A general "reject all-caps" rule cannot be
+    # used: IKEA and REI are real brands.
+    "usb", "usd", "cad", "gbp", "eur", "led", "lcd", "oled", "gps", "wifi",
+    "bluetooth", "diy", "iirc", "afaik", "psa", "oem", "abs", "pvc", "ptfe",
+    "nsfw", "til", "eu", "vat", "ac", "dc", "hvac", "suv", "atv",
+    # Places, which show up constantly in "made in …" arguments.
+    "australia", "australian", "texas", "maine", "california", "vermont",
+    "scotland", "ireland", "italy", "italian", "france", "french", "sweden",
+    "swedish", "switzerland", "swiss", "korea", "korean", "thailand",
+    "bangladesh", "portugal", "poland", "turkey", "brazil", "spain",
+    # Common nouns that only ever appear capitalised as part of a compound
+    # ("Dutch oven") or in bot output.
+    "dutch", "delete", "remindme", "reminders", "bot", "mod", "mods",
     "monday", "tuesday", "wednesday", "thursday", "friday", "saturday",
     "sunday", "january", "february", "march", "april", "june", "july",
     "august", "september", "october", "november", "december",
