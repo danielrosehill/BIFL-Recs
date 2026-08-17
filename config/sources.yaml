@@ -16,10 +16,15 @@ reddit:
         - {sort: hot, posts_limit: 150}
     # Adjacent subs where durability recommendations surface, kept separate so a
     # record's provenance always names the community it came from.
-    - name: heavyduty
+    # Checked 2026-08-17: r/heavyduty returns 404 and is not harvestable.
+    - name: Tools
       role: adjacent
       listings:
         - {sort: top, t: all, posts_limit: 200}
+    - name: castiron
+      role: adjacent
+      listings:
+        - {sort: top, t: all, posts_limit: 150}
     - name: onebag
       role: adjacent
       listings:

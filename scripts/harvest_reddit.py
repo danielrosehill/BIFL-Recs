@@ -101,12 +101,19 @@ def harvest_posts(client: RedditClient, sub: dict) -> dict[str, dict]:
         params = {"t": listing["t"]} if "t" in listing else {}
         print(f"  {name}: {sort} {params.get('t', '')} (up to {limit})", flush=True)
         count = 0
-        for post in client.listing(f"/r/{name}/{sort}", limit=limit, **params):
-            record = _project(post, POST_FIELDS)
-            record["subreddit"] = name
-            record["harvest_listing"] = f"{sort}:{params.get('t', 'na')}"
-            posts[record["id"]] = record
-            count += 1
+        try:
+            for post in client.listing(f"/r/{name}/{sort}", limit=limit, **params):
+                record = _project(post, POST_FIELDS)
+                record["subreddit"] = name
+                record["harvest_listing"] = f"{sort}:{params.get('t', 'na')}"
+                posts[record["id"]] = record
+                count += 1
+        except RedditError as exc:
+            # A subreddit that has been renamed, gone private or been banned
+            # returns 404 here. That is a fact about the source list, not a
+            # reason to lose the rest of the harvest.
+            print(f"    skipped: {exc}", flush=True)
+            break
         print(f"    {count} posts seen, {len(posts)} unique held", flush=True)
 
     write_jsonl(path, posts)

@@ -1,0 +1,48 @@
+division:
+  id: "30"
+  name: Electronics & Computing
+
+recommendations:
+  - id: tomtom-gps-lifetime-updates
+    product: TomTom satnav units sold with "lifetime map updates"
+    brand: TomTom
+    model: null
+    homegoods_class: "301201"
+    verdict: avoid
+    claim: >-
+      "Lifetime" is defined by the vendor as the life of the *device's support*,
+      not the life of the device. Units two years old were reclassified as
+      obsolete and cut off from the updates they were sold with.
+    service_life_reported: Updates withdrawn from a 2-year-old unit
+    repairability: not repairable
+    warranty: '"Lifetime map updates" — defined by TomTom as ending when it stops supporting the device'
+    country_of_manufacture: null
+    price_band: mid
+    available_new: false
+    successor: >-
+      Garmin is the comparison the subreddit draws, having continued to issue
+      map updates for units made obsolete by smartphones.
+    caveats:
+      - >-
+        This is the highest-scoring post in the harvested corpus by a wide
+        margin. That measures how much the behaviour annoyed people, not how
+        durable the hardware is — the hardware complaint is about support
+        policy, not build quality.
+      - >-
+        The category has largely been eaten by phones. Read this entry as a
+        record of how a lifetime claim can be defined away, which is the
+        transferable lesson.
+    confidence: high
+    added: "2026-08-17"
+    reviewed: "2026-08-17"
+    evidence:
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_ab7l6x
+        url: https://www.reddit.com/r/BuyItForLife/comments/ab7l6x/id_just_like_to_encourage_everyone_never_to_buy_a/
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: comment
+        ref: t1_ecy4wds
+        url: https://www.reddit.com/r/BuyItForLife/comments/ab7l6x/id_just_like_to_encourage_everyone_never_to_buy_a/ecy4wds/

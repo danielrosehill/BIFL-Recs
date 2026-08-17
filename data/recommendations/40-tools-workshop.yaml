@@ -1,0 +1,51 @@
+division:
+  id: "40"
+  name: Tools & Workshop
+
+recommendations:
+  - id: craftsman-hand-tools-vintage
+    product: Craftsman hand tools — pre-2010 US-made stock
+    brand: Craftsman
+    model: null
+    homegoods_class: "400201"
+    verdict: mixed
+    claim: >-
+      Solid-forged Craftsman hand tools from the Sears era are still in service
+      after decades and are the ones the corpus praises. The name has since
+      changed owners and manufacture, and the durability evidence does not
+      follow the badge.
+    service_life_reported: Decades; tools from the 1960s-1990s still working
+    repairability: user serviceable
+    warranty: >-
+      The original full lifetime replacement warranty was the point of the
+      brand; how it is honoured after the Sears bankruptcy and the sale to
+      Stanley Black & Decker is the open question.
+    country_of_manufacture: United States (historic); mixed since
+    price_band: budget
+    available_new: false
+    successor: >-
+      Current Craftsman-branded tools are a different product from the ones
+      described here. Buy the old stock second-hand, or treat the current line
+      as an unrelated purchase to be judged on its own.
+    caveats:
+      - >-
+        This is the archetypal case of a brand outliving the thing that made it
+        recommendable. Records like this are why `available_new` exists.
+      - >-
+        The praise is specific to solid-forged hand tools — screwdrivers,
+        wrenches, sockets. It does not extend to the power tools sold under the
+        same name.
+    confidence: medium
+    added: "2026-08-17"
+    reviewed: "2026-08-17"
+    evidence:
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_1q5yvkx
+        url: https://www.reddit.com/r/BuyItForLife/comments/1q5yvkx/truly_buy_it_for_life_the_craftsman_solid_forged/
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_5v3w2u
+        url: https://www.reddit.com/r/BuyItForLife/comments/5v3w2u/found_an_old_screwdriver_decided_to_put_the/

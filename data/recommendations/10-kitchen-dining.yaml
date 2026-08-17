@@ -1,0 +1,128 @@
+division:
+  id: "10"
+  name: Kitchen & Dining
+
+recommendations:
+  - id: vitamix-classic-blender
+    product: Vitamix classic-series blender (5000/5200 and successors)
+    brand: Vitamix
+    model: null
+    homegoods_class: "100801"
+    verdict: recommended
+    claim: >-
+      The classic-series machines are still running after 30 years of regular
+      domestic use, and the wear parts that do fail are sold separately rather
+      than being reasons to replace the machine.
+    service_life_reported: 20-30+ years in domestic use
+    repairability: parts available
+    warranty: 7-10 years depending on series
+    country_of_manufacture: United States
+    price_band: premium
+    available_new: true
+    successor: null
+    caveats:
+      - >-
+        The corpus is about the classic C-series. Later Ascent/Venturist models
+        with touchscreens and Bluetooth are a different product and the
+        longevity evidence does not transfer to them.
+      - >-
+        Vitamix opted into Reddit's "Redditor Highlights" advertising product,
+        which surfaces only positive Reddit sentiment inside ads. Praise for
+        the brand on this subreddit is therefore worth reading with more care
+        than most, not less.
+    confidence: high
+    added: "2026-08-17"
+    reviewed: "2026-08-17"
+    evidence:
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_1r9vejh
+        url: https://www.reddit.com/r/BuyItForLife/comments/1r9vejh/this_vitamix_was_bought_in_1994_and_still_blends/
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_1v3j7e3
+        url: https://www.reddit.com/r/BuyItForLife/comments/1v3j7e3/reddits_quiet_launch_of_redditor_highlights_and/
+
+  - id: zojirushi-rice-cookers
+    product: Zojirushi rice cookers and bread machines
+    brand: Zojirushi
+    model: null
+    homegoods_class: "100801"
+    verdict: recommended
+    claim: >-
+      Twenty-year service lives are ordinary, and the company still sells
+      consumable parts — pans, paddles — for machines discontinued two decades
+      ago, which is what makes the long life reachable rather than lucky.
+    service_life_reported: 20+ years
+    repairability: parts available
+    warranty: null
+    country_of_manufacture: Japan (higher-end models); China (entry models)
+    price_band: premium
+    available_new: true
+    successor: null
+    caveats:
+      - >-
+        Parts are not cheap relative to the machine: a replacement bread pan
+        and blades ran about USD 120 in 2026 against a USD 400 original price.
+        The case for repair is that the machine outlasts its replacements, not
+        that the part is inexpensive.
+      - >-
+        Non-stick coatings are the wear item across the range. Expect to
+        replace the coated pan, not the machine.
+    confidence: high
+    added: "2026-08-17"
+    reviewed: "2026-08-17"
+    evidence:
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_1uxczf8
+        url: https://www.reddit.com/r/BuyItForLife/comments/1uxczf8/til_zojirushi_still_sells_replacement_parts_for/
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_1tgah3v
+        url: https://www.reddit.com/r/BuyItForLife/comments/1tgah3v/in_memoriam_20_yearold_zojirushi/
+
+  - id: le-creuset-enamelled-cast-iron
+    product: Le Creuset enamelled cast-iron cookware
+    brand: Le Creuset
+    model: null
+    homegoods_class: "100201"
+    verdict: mixed
+    claim: >-
+      Forty years of daily use is well attested for older sets, but the enamel
+      is the failure surface and recent buyers report cracking inside weeks
+      with warranty claims refused on the assumption the piece was dropped.
+    service_life_reported: 40+ years for sets bought in the 1980s
+    repairability: not repairable
+    warranty: Lifetime, domestic — but see caveats on how it is applied
+    country_of_manufacture: France (cast iron); other sites for other lines
+    price_band: premium
+    available_new: true
+    successor: null
+    caveats:
+      - >-
+        The verdict is `mixed` rather than `recommended` precisely because the
+        long-service evidence is about pieces bought decades ago while the
+        warranty complaints are current. Age of the evidence matters here more
+        than in most entries.
+      - >-
+        A lifetime warranty that treats enamel cracking as impact damage by
+        default is weaker in practice than it reads on paper.
+    confidence: medium
+    added: "2026-08-17"
+    reviewed: "2026-08-17"
+    evidence:
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_hvx9ti
+        url: https://www.reddit.com/r/BuyItForLife/comments/hvx9ti/just_been_gifted_my_parents_le_creuset_saucepan/
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_1te21ue
+        url: https://www.reddit.com/r/BuyItForLife/comments/1te21ue/buyer_beware_le_creuset/

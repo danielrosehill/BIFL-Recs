@@ -1,0 +1,110 @@
+division:
+  id: "20"
+  name: Clothing & Footwear
+
+recommendations:
+  - id: darn-tough-socks
+    product: Darn Tough merino wool socks
+    brand: Darn Tough
+    model: null
+    homegoods_class: "200601"
+    verdict: recommended
+    claim: >-
+      An unconditional lifetime guarantee that is actually honoured on a
+      consumable item: worn-through socks are replaced rather than repaired,
+      which is the mechanism the recommendation rests on rather than the yarn
+      itself.
+    service_life_reported: Years of wear, then replacement under guarantee
+    repairability: not repairable
+    warranty: Unconditional lifetime guarantee, replacement not repair
+    country_of_manufacture: United States (Vermont)
+    price_band: premium
+    available_new: true
+    successor: null
+    caveats:
+      - >-
+        The guarantee is the product. Outside the US, return shipping to claim
+        it can approach the price of the socks, which removes most of the
+        advantage — one poster made exactly that calculation and bought
+        something else.
+      - >-
+        Counterfeits are a live problem and Amazon commingles inventory across
+        sellers, so an "authorised seller" listing there is not a guarantee of
+        a genuine pair. Buying direct is the repeated advice.
+      - >-
+        A frequently-upvoted dissent holds that Costco merino socks last
+        comparably for much less, and that this brand benefits from unusually
+        heavy word-of-mouth on the subreddit. Recorded because it is a fair
+        challenge to the consensus, not because it is settled.
+    confidence: high
+    added: "2026-08-17"
+    reviewed: "2026-08-17"
+    evidence:
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_ztn824
+        url: https://www.reddit.com/r/BuyItForLife/comments/ztn824/dont_buy_darn_tough_from_amazon/
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_135aetc
+        url: https://www.reddit.com/r/BuyItForLife/comments/135aetc/to_avoid_counterfeits_and_get_real_bifl_products/
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_1s94inc
+        url: https://www.reddit.com/r/BuyItForLife/comments/1s94inc/fully_convinced_darn_tough_has_a_crazy_marketing/
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_1qsw2pl
+        url: https://www.reddit.com/r/BuyItForLife/comments/1qsw2pl/my_first_bifl_outfit/
+
+  - id: red-wing-heritage-boots
+    product: Red Wing Heritage boots
+    brand: Red Wing
+    model: null
+    homegoods_class: "200802"
+    verdict: recommended
+    claim: >-
+      Goodyear-welted construction means the boot is resoled rather than
+      replaced, so service life is bounded by the upper rather than by the sole
+      — and the company's own stores handle the resoling.
+    service_life_reported: Decades, across multiple resoles
+    repairability: authorised repair only
+    warranty: null
+    country_of_manufacture: United States (Heritage line); imported for other lines
+    price_band: premium
+    available_new: true
+    successor: null
+    caveats:
+      - >-
+        Only some lines are US-made and Goodyear-welted. The name on the box is
+        not sufficient; the construction is what the claim rests on.
+      - >-
+        Break-in is genuinely unpleasant and sizing differs from ordinary
+        shoes. Several of the most-upvoted threads are about fitting rather
+        than durability.
+      - >-
+        Resoling costs money and takes the boots away for weeks. Cheap per year
+        does not mean cheap per event.
+    confidence: medium
+    added: "2026-08-17"
+    reviewed: "2026-08-17"
+    evidence:
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_dwq91j
+        url: https://www.reddit.com/r/BuyItForLife/comments/dwq91j/finally_went_ahead_and_bought_some_red_wing_shoes/
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_8ou3c1
+        url: https://www.reddit.com/r/BuyItForLife/comments/8ou3c1/i_work_at_a_red_wing_shoe_store_and_a_customer/
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: comment
+        ref: t1_l96rqin
+        url: https://www.reddit.com/r/BuyItForLife/comments/1diwmtx/what_was_the_item_that_made_you_hop_on_the_buy_it/l96rqin/

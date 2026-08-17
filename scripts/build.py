@@ -30,6 +30,7 @@ DATA = REPO / "data" / "recommendations"
 SCHEMA = REPO / "schema" / "recommendation.schema.json"
 DIST = REPO / "dist"
 DOCS = REPO / "docs"
+QUOTES = REPO / "data" / "quotes.json"
 
 
 def load_files() -> list[tuple[Path, dict]]:
@@ -68,6 +69,33 @@ def validate(files: list[tuple[Path, dict]]) -> list[str]:
                 seen_ids[rec_id] = path
 
     return errors
+
+
+def merge_quotes(records: list[dict]) -> int:
+    """Attach the verbatim quote, score and date held for each cited ref.
+
+    Quotes live in data/quotes.json rather than in the YAML because they are
+    extracted from the corpus by scripts/fill_quotes.py, not typed by hand — a
+    hand-copied quote is a paraphrase waiting to happen. Anything set
+    explicitly in the YAML wins, so a record can still trim a quote itself.
+    """
+    if not QUOTES.exists():
+        return 0
+    held = json.loads(QUOTES.read_text())
+    missing = 0
+    for rec in records:
+        for ev in rec.get("evidence") or []:
+            ref = ev.get("ref")
+            if not ref:
+                continue
+            source = held.get(ref)
+            if source is None:
+                missing += 1
+                continue
+            for field in ("quote", "score", "date"):
+                if ev.get(field) is None and source.get(field) is not None:
+                    ev[field] = source[field]
+    return missing
 
 
 def flatten(files: list[tuple[Path, dict]]) -> list[dict]:
@@ -180,7 +208,13 @@ def main() -> int:
         return 1
 
     records = flatten(files)
+    missing = merge_quotes(records)
     print(f"OK {len(records)} recommendations in {len(files)} file(s)")
+    if missing:
+        print(
+            f"note: {missing} cited ref(s) have no quote held — "
+            "run scripts/fill_quotes.py against a fresh harvest"
+        )
     if args.check:
         return 0
 

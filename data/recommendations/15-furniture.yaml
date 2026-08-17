@@ -1,0 +1,92 @@
+division:
+  id: "15"
+  name: Furniture
+
+recommendations:
+  - id: herman-miller-aeron
+    product: Herman Miller Aeron task chair
+    brand: Herman Miller
+    model: Aeron
+    homegoods_class: "150204"
+    verdict: recommended
+    claim: >-
+      Twenty-year-old chairs are found in serviceable condition on the kerb and
+      on second-hand markets, and every part that wears — mesh, arm pads, gas
+      lift, casters — is a stocked spare rather than a reason to scrap the
+      chair.
+    service_life_reported: 20+ years, with parts replaced along the way
+    repairability: parts available
+    warranty: 12 years, parts and labour
+    country_of_manufacture: United States
+    price_band: premium
+    available_new: true
+    successor: null
+    caveats:
+      - >-
+        The strongest recommendation in the corpus is for buying used. Chairs
+        turn up at a small fraction of new price precisely because they outlast
+        the offices that bought them, and a refurbished Classic is a different
+        purchase from a new Remastered.
+      - >-
+        Counterfeit and "inspired by" Aerons are common at the used end. Serial
+        numbers on the underside are the check.
+    confidence: high
+    added: "2026-08-17"
+    reviewed: "2026-08-17"
+    evidence:
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_qm2b7e
+        url: https://www.reddit.com/r/BuyItForLife/comments/qm2b7e/someone_didnt_realize_what_they_had_and_threw/
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_k76wkm
+        url: https://www.reddit.com/r/BuyItForLife/comments/k76wkm/i_finally_did_it_after_months_of_searching/
+
+  - id: speed-queen-washers
+    product: Speed Queen top-trim washers and dryers (TR/DC series)
+    brand: Speed Queen
+    model: null
+    homegoods_class: "151002"
+    verdict: recommended
+    claim: >-
+      A commercial-laundry mechanical design sold into the domestic market:
+      users cross-shop it specifically because mainstream machines fail within
+      a few years, and the reported alternative in the same conversation is
+      buying something vintage.
+    service_life_reported: 10+ years reported in service; design lineage is commercial
+    repairability: user serviceable
+    warranty: Up to 7 years on top trim levels
+    country_of_manufacture: United States
+    price_band: premium
+    available_new: true
+    successor: null
+    caveats:
+      - >-
+        "Speed Queen" is not one thing. The recommendation in the corpus is
+        consistently for the top trim levels; lower trims share the badge and
+        not the mechanism. Huebsch is the same manufacturer under another name.
+      - >-
+        Bought new, these cost several times a mainstream machine and wash to a
+        more basic specification. The argument is service life, not features.
+    confidence: high
+    added: "2026-08-17"
+    reviewed: "2026-08-17"
+    evidence:
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_wk3s2i
+        url: https://www.reddit.com/r/BuyItForLife/comments/wk3s2i/drove_7_hours_roundtrip_for_speed_queen_tr5_and/
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_1ttehda
+        url: https://www.reddit.com/r/BuyItForLife/comments/1ttehda/i_got_tired_of_newer_washing_machines/
+      - source: reddit
+        subreddit: BuyItForLife
+        kind: post
+        ref: t3_12omz8o
+        url: https://www.reddit.com/r/BuyItForLife/comments/12omz8o/samsung_washer_and_dryer_literally_fell_apart/
