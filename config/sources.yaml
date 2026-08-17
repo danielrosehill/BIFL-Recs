@@ -1,0 +1,59 @@
+# Harvest plan. `scripts/harvest_reddit.py` reads this file and nothing else;
+# adding a subreddit or a query here is the whole of adding a source.
+#
+# posts_limit is per (subreddit x listing). Reddit caps any single listing at
+# ~1000 items regardless of what is asked for, so numbers above 1000 are
+# silently truncated by the API, not by us.
+
+reddit:
+  subreddits:
+    - name: BuyItForLife
+      role: primary
+      listings:
+        - {sort: top, t: all, posts_limit: 500}
+        - {sort: top, t: year, posts_limit: 300}
+        - {sort: top, t: month, posts_limit: 200}
+        - {sort: hot, posts_limit: 150}
+    # Adjacent subs where durability recommendations surface, kept separate so a
+    # record's provenance always names the community it came from.
+    - name: heavyduty
+      role: adjacent
+      listings:
+        - {sort: top, t: all, posts_limit: 200}
+    - name: onebag
+      role: adjacent
+      listings:
+        - {sort: top, t: all, posts_limit: 150}
+    - name: goodyearwelt
+      role: adjacent
+      listings:
+        - {sort: top, t: all, posts_limit: 150}
+
+  # Fetched per post, after the listings pass.
+  comments:
+    # Only pull comments for posts likely to contain a recommendation thread.
+    min_score: 100
+    min_comments: 10
+    # `depth` and `limit` map to the Reddit /comments parameters.
+    depth: 3
+    limit: 200
+    max_posts: 600
+
+# Non-Reddit sources are catalogued rather than scraped, because each needs its
+# own extraction and several forbid automated access in their terms. Add a
+# harvester per entry as it is built; `harvester: null` means manual entry only.
+other_sources:
+  - name: BuyItForLife wiki
+    url: https://www.reddit.com/r/BuyItForLife/wiki/index
+    harvester: reddit_wiki
+    notes: Sub's own curated lists; the highest signal-per-byte source available.
+  - name: Project Farm (YouTube)
+    url: https://www.youtube.com/@ProjectFarm
+    harvester: null
+    notes: >-
+      Destructive comparative testing of tools and consumables. Results are in
+      video, not text; entries are transcribed by hand into data/.
+  - name: Wirecutter "long-term test notes"
+    url: https://www.nytimes.com/wirecutter/
+    harvester: null
+    notes: Paywalled and scraping is disallowed; used as corroboration only.

@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/danielrosehill/BIFL-Recs/schema/recommendation.schema.json",
+  "title": "BIFL recommendation file",
+  "description": "One file per taxonomy division under data/recommendations/. Divisions mirror the HomeGoods-Taxonomy division ids so a recommendation can be joined onto an inventory row.",
+  "type": "object",
+  "required": ["division", "recommendations"],
+  "additionalProperties": false,
+  "properties": {
+    "division": {
+      "type": "object",
+      "required": ["id", "name"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[0-9]{2}$",
+          "description": "HomeGoods-Taxonomy division id, e.g. 40 for Tools & Workshop."
+        },
+        "name": {"type": "string"}
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/recommendation"}
+    }
+  },
+  "$defs": {
+    "recommendation": {
+      "type": "object",
+      "required": ["id", "product", "brand", "verdict", "confidence", "added", "evidence"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "Stable slug, unique across the whole directory. Never re-used after deletion."
+        },
+        "product": {"type": "string", "description": "Human-facing name as someone would search for it."},
+        "brand": {"type": "string"},
+        "model": {"type": ["string", "null"], "description": "Null where the claim is about a brand or a whole line, not one model."},
+        "homegoods_class": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9]{6}$",
+          "description": "Optional 6-digit class from HomeGoods-Taxonomy. Enables joining onto an inventory row."
+        },
+        "verdict": {
+          "enum": ["recommended", "mixed", "avoid"],
+          "description": "avoid is first-class: the sub's most-upvoted content is often a durability failure or a company reneging on a lifetime claim."
+        },
+        "claim": {"type": "string", "description": "The durability claim in one sentence, in the repo's own words."},
+        "service_life_reported": {"type": ["string", "null"], "description": "As reported by sources, e.g. '30+ years', not an estimate of our own."},
+        "repairability": {
+          "enum": ["parts available", "user serviceable", "authorised repair only", "not repairable", "unknown"],
+          "default": "unknown"
+        },
+        "warranty": {"type": ["string", "null"], "description": "e.g. 'lifetime, transferable' — record what the maker states, and in caveats whether sources say it is honoured."},
+        "country_of_manufacture": {"type": ["string", "null"]},
+        "price_band": {
+          "enum": ["budget", "mid", "premium", "unknown"],
+          "default": "unknown",
+          "description": "Relative to the category, not an absolute figure. Prices date; bands do not."
+        },
+        "available_new": {
+          "type": ["boolean", "null"],
+          "description": "Whether the item can still be bought new. The sub's own long-running complaint is about recommendations that are only findable second-hand."
+        },
+        "successor": {"type": ["string", "null"], "description": "Where available_new is false, the current model sources point to instead."},
+        "caveats": {
+          "type": "array",
+          "items": {"type": "string"},
+          "default": [],
+          "description": "Anything that would change the verdict: a quality cliff after an acquisition, a region-locked warranty, a model number that looks identical but is not."
+        },
+        "confidence": {
+          "enum": ["high", "medium", "low"],
+          "description": "high: several independent, highly-rated sources agreeing. medium: one strong source. low: single unsupported mention, kept because it is a lead worth chasing."
+        },
+        "added": {"type": "string", "format": "date"},
+        "reviewed": {"type": ["string", "null"], "format": "date", "description": "Last date a human or agent re-checked the claim against sources."},
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/evidence"},
+          "description": "Every record carries its provenance. A record with no evidence is not a record."
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["source", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "source": {"enum": ["reddit", "youtube", "manufacturer", "press", "standards-body", "other"]},
+        "subreddit": {"type": ["string", "null"]},
+        "kind": {"enum": ["post", "comment", "wiki", "video", "article", "spec-sheet"], "default": "post"},
+        "ref": {"type": ["string", "null"], "description": "Fullname of the harvested item, e.g. t3_abc123 or t1_def456, so the record joins back onto harvest/."},
+        "url": {"type": "string", "format": "uri"},
+        "score": {"type": ["integer", "null"], "description": "Upvotes at harvest time. A number, not a verdict — a highly-scored joke is still a joke."},
+        "date": {"type": ["string", "null"], "format": "date"},
+        "quote": {"type": ["string", "null"], "description": "The specific sentence the claim rests on, verbatim and trimmed."}
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+[project]
+name = "bifl-recs"
+version = "0.1.0"
+description = "Directory of durable-goods recommendations mined from r/BuyItForLife and adjacent sources"
+requires-python = ">=3.11"
+dependencies = [
+    "PyYAML>=6.0",
+    "jsonschema>=4.21",
+]
+
+[tool.uv]
+package = false

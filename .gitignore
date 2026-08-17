@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+uv.lock
+
+# The comment corpus is large (tens of MB per full harvest) and is rewritten
+# wholesale on every re-harvest, so committing it would grow the repo without
+# bound. It is a local working set: regenerate with
+#   uv run scripts/harvest_reddit.py --skip-posts
+# Evidence does not depend on it — every quote a record rests on is copied into
+# that record's `evidence[].quote`, and dist/candidates.csv carries the
+# verbatim excerpt and permalink for every ranked candidate.
+harvest/**/comments.jsonl
