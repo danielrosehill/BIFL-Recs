@@ -9,12 +9,17 @@ data/ is a judgement made by a human or an agent reading the actual quotes.
 Method, deliberately blunt and inspectable:
 
 1. Take every harvested post title, selftext and comment body.
-2. Pull candidate product names: runs of 1-3 capitalised tokens, plus
+2. Learn which words are actually proper nouns *from the corpus itself*: count
+   how often each word appears lowercase versus capitalised mid-sentence. A
+   word written lowercase most of the time is an English word that happened to
+   start a sentence ("Mine", "People", "Like"); a word almost always
+   capitalised is a name ("Patagonia", "Vitamix"). This replaces guessing at a
+   stopword list, which does not survive contact with 40,000 comments.
+3. Pull candidate product names: runs of 1-3 capitalised tokens, plus
    capitalised-token-followed-by-model-number ("Vitamix 5200", "Sawyer Squeeze").
-3. Score each candidate by the number of *distinct* items it appears in,
-   weighted up when the same item also contains durability language, and
-   weighted down when the containing item scored poorly.
-4. Emit dist/candidates.csv with, for every candidate, the three highest-scored
+4. Score each candidate by the number of *distinct* items it appears in,
+   weighted up when the same item also contains durability language.
+5. Emit dist/candidates.csv with, for every candidate, the three highest-scored
    verbatim excerpts so the next reader can judge without re-reading the corpus.
 
 Usage:
@@ -60,32 +65,32 @@ NEGATIVE_RE = re.compile(
 )
 
 CANDIDATE_RE = re.compile(
-    r"\b([A-Z][A-Za-z&'.-]{2,}(?:\s+[A-Z][A-Za-z&'.-]{1,}){0,2}"
+    r"\b([A-Z][A-Za-z&'.-]{1,}(?:\s+[A-Z][A-Za-z&'.-]{1,}){0,2}"
     r"(?:\s+[A-Z0-9][A-Za-z0-9-]*\d[A-Za-z0-9-]*)?)"
 )
 
-# Words that pass the capitalisation test but never name a product. Sentence
-# openers dominate this list, which is why it is long.
-STOPWORDS = {
-    "the", "this", "that", "these", "those", "they", "there", "then", "than",
-    "and", "but", "for", "not", "you", "your", "yours", "our", "ours", "his",
-    "her", "hers", "its", "their", "theirs", "who", "what", "when", "where",
-    "why", "how", "all", "any", "some", "one", "two", "three", "just", "also",
-    "even", "still", "very", "more", "most", "much", "many", "less", "least",
-    "have", "has", "had", "was", "were", "been", "being", "will", "would",
-    "can", "could", "should", "shall", "may", "might", "must", "does", "did",
-    "yes", "no", "ok", "okay", "edit", "reddit", "bifl", "buy", "buying",
-    "bought", "get", "got", "make", "made", "use", "used", "using", "great",
-    "good", "best", "nice", "love", "thanks", "thank", "yeah", "yep", "nope",
-    "honestly", "personally", "basically", "literally", "actually", "however",
-    "although", "though", "because", "since", "after", "before", "while",
-    "every", "each", "both", "either", "neither", "another", "same", "such",
-    "here", "now", "today", "yesterday", "tomorrow", "never", "always",
+WORD_RE = re.compile(r"\b([A-Za-z][A-Za-z'-]{1,})\b")
+
+# Contractions survive the capitalisation test and swamp everything else
+# ("I've", "It's", "That's"), so they are rejected structurally rather than
+# enumerated.
+CONTRACTION_RE = re.compile(r"['’](?:s|m|d|re|ll|ve|t)\b", re.I)
+
+# Proper nouns that are real names but never products. Small by design — the
+# corpus-driven test in `learn_proper_nouns` does the heavy lifting, and every
+# entry added here is a judgement that should be visible.
+NON_PRODUCT_NAMES = {
+    "reddit", "bifl", "buyitforlife", "amazon", "ebay", "google", "youtube",
+    "imgur", "facebook", "instagram", "craigslist", "etsy", "walmart",
+    "costco", "target", "goodwill", "aliexpress", "temu", "wirecutter",
     "usa", "america", "american", "europe", "european", "china", "chinese",
-    "amazon", "ebay", "google", "youtube", "imgur",
-    "op", "tl", "dr", "pro", "con", "lol", "imo", "imho", "fwiw", "ymmv",
-    "my", "me", "we", "us", "it", "if", "in", "on", "at", "to", "of", "as",
-    "so", "or", "do", "be", "is", "am", "are", "an", "a", "i",
+    "japan", "japanese", "germany", "german", "canada", "canadian", "uk",
+    "britain", "british", "england", "india", "mexico", "vietnam", "taiwan",
+    "christmas", "thanksgiving", "easter", "hanukkah", "covid", "reddit's",
+    "edit", "tldr", "eli", "ymmv", "imho", "fwiw", "op",
+    "monday", "tuesday", "wednesday", "thursday", "friday", "saturday",
+    "sunday", "january", "february", "march", "april", "june", "july",
+    "august", "september", "october", "november", "december",
 }
 
 
@@ -121,19 +126,65 @@ def iter_items():
             )
 
 
-def candidates_in(text: str) -> set[str]:
+def learn_proper_nouns(texts: list[str], min_mid_sentence: int = 3) -> set[str]:
+    """Return the lowercased words the corpus treats as names.
+
+    The discriminator is capitalisation *away from the start of a sentence*.
+    Sentence-initial capitals carry no information — "Mine", "People", "Wow"
+    and "Patagonia" all get one. Only a name keeps its capital in the middle of
+    a sentence, so a word counts as a name here when it appears mid-sentence
+    capitalised at least `min_mid_sentence` times and is capitalised in at
+    least half of its mid-sentence appearances.
+
+    This is why the stopword list stayed short: sentence openers, interjections
+    and ordinary nouns are all removed by the same rule, learned from the
+    corpus rather than guessed at in advance.
+    """
+    mid_upper: dict[str, int] = defaultdict(int)
+    mid_lower: dict[str, int] = defaultdict(int)
+
+    for text in texts:
+        for match in WORD_RE.finditer(text):
+            start = match.start()
+            # Walk back over quotes, brackets and whitespace to the last
+            # meaningful character; if it is terminal punctuation or nothing at
+            # all, this word opens a sentence and tells us nothing.
+            i = start - 1
+            while i >= 0 and text[i] in " \t\"'“‘([*_>":
+                i -= 1
+            if i < 0 or text[i] in ".!?\n:;-–—•":
+                continue
+            word = match.group(1)
+            if word[0].isupper():
+                mid_upper[word.lower()] += 1
+            else:
+                mid_lower[word.lower()] += 1
+
+    proper = set()
+    for word, cap_count in mid_upper.items():
+        if cap_count < min_mid_sentence:
+            continue
+        if cap_count / (cap_count + mid_lower[word]) >= 0.5:
+            proper.add(word)
+    return proper
+
+
+def candidates_in(text: str, proper: set[str]) -> set[str]:
     found = set()
     for match in CANDIDATE_RE.finditer(text):
         phrase = match.group(1).strip(" .,-'&")
+        if CONTRACTION_RE.search(phrase):
+            continue
         tokens = phrase.split()
-        if not tokens:
+        if not tokens or len(phrase) < 3:
             continue
-        # Drop anything whose first token is a sentence opener rather than a name.
-        if tokens[0].lower() in STOPWORDS:
+        lowered = [t.lower().strip(".,'&-") for t in tokens]
+        if any(t in NON_PRODUCT_NAMES for t in lowered):
             continue
-        if all(t.lower() in STOPWORDS for t in tokens):
-            continue
-        if len(phrase) < 3 or phrase.isupper() and len(phrase) < 3:
+        # A phrase qualifies if at least one of its words is a name in this
+        # corpus. "Le Creuset" passes on `creuset`; "Mine broke" passes on
+        # neither and is dropped.
+        if not any(t in proper for t in lowered):
             continue
         found.add(phrase)
     return found
@@ -160,14 +211,20 @@ def main() -> int:
     subs: dict[str, set[str]] = defaultdict(set)
     quotes: dict[str, list[tuple[int, str, str]]] = defaultdict(list)
 
+    corpus = [
+        (text, score, url, sub)
+        for text, score, url, _kind, sub in iter_items()
+        if text and len(text) >= 12
+    ]
+    proper = learn_proper_nouns([t for t, _, _, _ in corpus])
+    print(f"learned {len(proper)} proper nouns from {len(corpus)} items")
+
     items = 0
-    for text, score, url, _kind, sub in iter_items():
-        if not text or len(text) < 12:
-            continue
+    for text, score, url, sub in corpus:
         items += 1
         durable = bool(DURABILITY_RE.search(text))
         negative = bool(NEGATIVE_RE.search(text))
-        for phrase in candidates_in(text):
+        for phrase in candidates_in(text, proper):
             mentions[phrase] += 1
             subs[phrase].add(sub)
             weight[phrase] += max(score, 0) + (50 if durable else 0)
